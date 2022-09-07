@@ -58,7 +58,7 @@ export async function getServerSideProps() {
 
   let arrayPokemon = [];
 
-  for (let index = 1; index <= 50; index++) {
+  for (let index = 1; index <= 151; index++) {
     let data = await traerPoKEMON(index);
     arrayPokemon.push(data);
   }

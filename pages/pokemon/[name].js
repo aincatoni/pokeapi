@@ -1,39 +1,28 @@
 import React from "react";
 
-export default function Pokemon() {
+export default function Pokemon({ pokemonName, pokemonImage }) {
   return (
     <div>
-      <h1>Hola soy pokémon</h1>
+      <h1>{pokemonName.name}</h1>
+      <img src={pokemonImage.image} />
     </div>
   );
 }
 
-export async function getServerSideProps() {
-  const traerPoKEMON = (numero) => {
-    return fetch(`https://pokeapi.co/api/v2/pokemon/${numero}`)
-      .then((response) => response.json())
-      .then((data) => data);
-  };
+export async function getServerSideProps(context) {
+  const { name } = context.query;
+  const { image } = context.query;
 
-  let arrayPokemon = [];
+  const resName = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+  const pokemonName = await resName.json();
 
-  for (let index = 1; index <= 50; index++) {
-    let data = await traerPoKEMON(index);
-    arrayPokemon.push(data);
-  }
-
-  let pokemonListo = arrayPokemon.map((pokemon) => {
-    return {
-      id: pokemon.id,
-      name: pokemon.name,
-      image: pokemon.sprites.other.dream_world.front_default,
-      types: pokemon.types,
-    };
-  });
+  const resImage = await fetch(`https://pokeapi.co/api/v2/pokemon/${image}`);
+  const pokemonImage = await resImage.json();
 
   return {
     props: {
-      pokemonListo,
+      pokemonName,
+      pokemonImage,
     },
   };
 }
