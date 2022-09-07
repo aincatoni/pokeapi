@@ -1,28 +1,25 @@
-import React from "react";
+import React from "react",
+import HomeCss from "/pages";
 
-export default function Pokemon({ pokemonName, pokemonImage }) {
+export default function Pokemon({ pokemon }) {
   return (
-    <div>
-      <h1>{pokemonName.name}</h1>
-      <img src={pokemonImage.image} />
+    <div className={`${pokemon.types[0].type.name}`}>
+      <h1>{pokemon.name}</h1>
+      <h3>{pokemon.types[0].type.name}</h3>
+      <img src={pokemon.sprites.back_default} alt="" />
     </div>
   );
 }
 
 export async function getServerSideProps(context) {
   const { name } = context.query;
-  const { image } = context.query;
 
-  const resName = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
-  const pokemonName = await resName.json();
-
-  const resImage = await fetch(`https://pokeapi.co/api/v2/pokemon/${image}`);
-  const pokemonImage = await resImage.json();
+  const res = await fetch(`https://pokeapi.co/api/v2/pokemon/${name}`);
+  const pokemon = await res.json();
 
   return {
     props: {
-      pokemonName,
-      pokemonImage,
+      pokemon,
     },
   };
 }
