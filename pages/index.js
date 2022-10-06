@@ -11,7 +11,7 @@ export default function Home({ pokemonListo }) {
       <ul className={HomeCss.columnas}>
         {pokemonListo.map((pokemon, index) => {
           return (
-            <li>
+            <li key={cardPokemon}>
               <Link
                 href={{
                   pathname: "/pokemon/[name]",
@@ -27,15 +27,18 @@ export default function Home({ pokemonListo }) {
                       <div className={HomeCss.tipos}>
                         {pokemon.types.map((tipo, index) => {
                           return (
-                            <p className={HomeCss.tipo}>{tipo.type.name}</p>
+                            <p className={HomeCss.tipo} key={pokemonType}>
+                              {tipo.type.name}
+                            </p>
                           );
                         })}
                       </div>
                     </div>
-                    <img
+                    <Image
                       src={pokemon.image}
                       height="100"
                       width="100"
+                      alt="Imagen-Pokemon"
                       className={HomeCss.imagen}
                     />
                   </div>
